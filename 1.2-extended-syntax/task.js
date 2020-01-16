@@ -1,4 +1,8 @@
+let myName = "Павел";
 
+let message = `Привет, мир! Меня зовут ${myName}.`;
+
+console.log(message);
 
 function calculateQuadraticEquation(){
     let a = +window.a.value;
