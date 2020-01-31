@@ -17,8 +17,8 @@ function getSolutions( a, b, c ){
 			return answer
 			break;
 		default:
-			x1 = (-b + Math.pow(D, 1/2)) / 2*a;
-			x2 = (-b - Math.pow(D, 1/2)) / 2*a;
+			x1 = (-b + Math.pow(D, 1/2)) / (2*a);
+			x2 = (-b - Math.pow(D, 1/2)) / (2*a);
 			answer.roots = [x1, x2];
 			answer.D = D;
 			return answer
@@ -65,20 +65,25 @@ function getAverageScore( data ){
   let averageGrade = 0;
   let totalAverageGrade = 0;
 
-  for (let prop in data){
-    let gradeSumm = 0;
-    for(let i=0; i<data[prop].length; i++){
-      let subject = data[prop];
-      gradeSumm = gradeSumm + subject[i];
-    };
-    averageGrade = gradeSumm / data[prop].length;
+  function getAverageScorePerSubject(marks){
+ 
+  	for (let prop in marks){
+    	let gradeSumm = 0;
+    	for(let i=0; i<marks[prop].length; i++){
+    		let subject = marks[prop];
+    		gradeSumm = gradeSumm + subject[i];
+    		};
+		averageGrade = gradeSumm / marks[prop].length;
   
-    totalAverageGrade= totalAverageGrade + averageGrade;
-    data[prop] = averageGrade;
-  };
+    	totalAverageGrade= totalAverageGrade + averageGrade;
+		marks[prop] = averageGrade;
+		};
+	return totalAverageGrade	
+	};
 
   let subjectList = Object.getOwnPropertyNames(data);
-  data.average = totalAverageGrade / subjectList.length;
+  data.average = getAverageScorePerSubject(data) / subjectList.length;
+  return data
 };
 
 getAverageScore( data );
