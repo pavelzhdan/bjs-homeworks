@@ -78,7 +78,6 @@ function sayHello() {
     let greeting = getGreeting(name);
     let span = window.helloResult;
     span.textContent = greeting;
-    console.log(name.length);
 };
 
 function getGreeting(name) {
@@ -87,5 +86,6 @@ function getGreeting(name) {
         {currentName = "Аноним";}
         else {currentName = name};
     let greeting = `Привет, мир! Меня зовут ${currentName}.`;
+    console.log(greeting);
     return greeting;
 };
