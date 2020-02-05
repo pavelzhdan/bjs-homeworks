@@ -62,27 +62,29 @@ let data = {
 
 function getAverageScore( data ){
 
-  let averageGrade = 0;
-  let totalAverageGrade = 0;
-
-  function getAverageScorePerSubject(marks){
+	let averageGrade = 0;
+	let totalAverageGrade = 0;
  
-  	for (let prop in marks){
+	for (let prop in data){
     	let gradeSumm = 0;
-    	for(let i=0; i<marks[prop].length; i++){
-    		let subject = marks[prop];
+    	for(let i=0; i<data[prop].length; i++){
+    		let subject = data[prop];
     		gradeSumm = gradeSumm + subject[i];
     		};
-		averageGrade = gradeSumm / marks[prop].length;
-  
-    	totalAverageGrade= totalAverageGrade + averageGrade;
-		marks[prop] = averageGrade;
+		averageGrade = gradeSumm / data[prop].length;  
+		data[prop] = averageGrade;
 		};
-	return totalAverageGrade	
+	
+	function getAverageMark(marks){
+		let averageMark = 0;
+		let subjectList = Object.getOwnPropertyNames(data);
+		for (let prop in marks){
+			averageMark += marks[prop]; 
+		};
+		return averageMark / subjectList.length
 	};
 
-  let subjectList = Object.getOwnPropertyNames(data);
-  data.average = getAverageScorePerSubject(data) / subjectList.length;
+	data.average = getAverageMark(data);
   return data
 };
 
