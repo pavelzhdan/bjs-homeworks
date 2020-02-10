@@ -33,6 +33,6 @@ function sleep(milliseconds){
             fn = Array.from(fn);
             console.log(fn);
             console.log(fn.length);
-            console.log(fn.some(item => {compareArrays(item, checkArgs)}));
+            console.log(checkArgs.some(item => {compareArrays(item, fn)}));
             };
       };
