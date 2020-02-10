@@ -9,7 +9,7 @@ class AlarmClock {
             case typeof(id) == "undefined":
                 console.error("Ведите id");
                 break;
-            case !this.includes(id):
+            case this.id.indexOf(id) >-1:
                 console.error("Такой id уже есть");
                 break;
             default:
@@ -19,16 +19,47 @@ class AlarmClock {
     };
 
     removeClock(id){
-        if (this.indexOf(id) == -1){
+        if (this.id.indexOf(id) == -1){
             return "Такого id нет"
         } else {
-            let index = this.indexOf(id);
-            delete this.id[index];
-            delete this.clocks[index];
+            let index = this.id.indexOf(id);
+            this.id.splice(index,1);
+            this.clocks.splice(index,1);
+        };
+        if (this.id.indexOf(id) == -1){
+            return true
+        } else {
+            return false
         };
     };
 
-    getCurrentFormattedTime(){
-        return `${getHours()}:${getMinutes()}`
+    get getCurrentFormattedTime(){
+        let time = new Date();
+        let hours = time.getHours();
+        let minutes = time.getMinutes();
+        return `${hours}:${minutes}`
     };
-};
+
+    start(){
+        function checkClock(clock){
+            let time = new Date();
+            let hours = time.getHours();
+            let minutes = time.getMinutes();
+            let timeNow = `${hours}:${minutes}` 
+            if (this.clock[0] = timeNow){
+                return true
+            };
+        };
+
+        for (let i=0; i < this.id.length; i++){
+            let setTime = this.clocks[i];
+            if (checkClock(setTime)){
+                console.log(setTime[1]);
+            };
+        };
+    };
+
+
+let test = new AlarmClock();
+test.addClock("19:20", () => console.log("спать!"), 1);
+test.removeClock(1);
