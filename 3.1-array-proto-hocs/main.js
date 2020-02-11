@@ -1,38 +1,52 @@
 function sleep(milliseconds){
-    let e = new Date().getTime() + milliseconds;
-    while (new Date().getTime() <= e) {}
+  let e = new Date().getTime() + milliseconds;
+  while (new Date().getTime() <= e) {}
+};
+
+function sum(...args){
+    // Замедление на половину секунды.
+    sleep(0); // Можно использовать другое значение замедления.
+    return args.reduce((sum, arg) => {
+      return sum += +arg;
+    }, 0);
   };
-  
-  function sum(...args){
-      // Замедление на половину секунды.
-      sleep(500); // Можно использовать другое значение замедления.
-      return args.reduce((sum, arg) => {
-        return sum += +arg;
-      }, 0);
-    };
-  
-  function compareArrays(arr1, arr2){
-      arr1.length === arr2.length ? (arr1.every((element, index) => {return element === arr2[index];})) : ("false, разные значения");
-  };
-  
-  const mSum = memorize(sum, 5);
-  
-  mSum(3,2,1);
-  
-  function memorize(fn, limit){
-      const results = [
-          {args: [3,5,7],result: 15},
-          {args: [1,2,3], result: 6}, 
-          {args: [3,2,1],result: 6}
-      ];
-          return function entitled(...fn){
-            let checkArgs = new Array();
-            results.forEach(it => {checkArgs.push(it.args)});
-            console.log(checkArgs);
-            console.log(fn);
-            fn = Array.from(fn);
-            console.log(fn);
-            console.log(fn.length);
-            console.log(checkArgs.some(item => {compareArrays(item, fn)}));
-            };
+
+function compareArrays(arr1, arr2){
+    return arr1.length === arr2.length ? (arr1.every((element, index) => {return element === arr2[index];})) : (false)
+};
+
+const mSum = memorize(sum, 5);
+
+mSum(1,2,1);
+
+
+function memorize(fn, limit){
+    const results = [];
+    let answer = (...fn) => {
+      if (results.find(x => compareArrays(x.args, fn))){
+      return results.find(x => compareArrays(x.args, fn)).result
+      } else {
+      results.push({args: fn, result: sum(...fn)});
+      if (results.length > limit){
+      results.shift()
       };
+      return sum(...fn)
+      };
+      };
+    return answer
+};
+
+
+console.time("timer");
+
+const forTestCase = [ [1,2,3], [1,2], [1,2,3], [1,2], [9,5,2,4] ];
+
+
+function testCase(testFunction, someTimer) {
+  for (let i = 0; i < 100; i++){
+    forTestCase.forEach(element => testFunction(...element));
+  };
+  console.timeEnd(someTimer);
+};
+
+testCase(mSum, "timer");
