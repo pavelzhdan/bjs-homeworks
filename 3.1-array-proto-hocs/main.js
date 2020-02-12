@@ -12,7 +12,7 @@ function sum(...args){
   };
 
 function compareArrays(arr1, arr2){
-    return arr1.length === arr2.length ? (arr1.every((element, index) => {return element === arr2[index];})) : (false)
+    return arr1.length === arr2.length && arr1.every((element, index) => element === arr2[index])
 };
 
 const mSum = memorize(sum, 5);
@@ -21,19 +21,21 @@ mSum(1,2,1);
 
 
 function memorize(fn, limit){
-    const results = [];
-    let answer = (...fn) => {
-      if (results.find(x => compareArrays(x.args, fn))){
-      return results.find(x => compareArrays(x.args, fn)).result
+  const results = [];
+  let answer = (...fn) => {
+    let finding = () => results.find(x => compareArrays(x.args, fn));
+    if (finding()){
+      return finding().result
       } else {
-      results.push({args: fn, result: sum(...fn)});
-      if (results.length > limit){
-      results.shift()
-      };
-      return sum(...fn)
-      };
-      };
-    return answer
+        let sumResult = sum(...fn);
+        results.push({args: fn, result: sumResult});
+          if (results.length > limit){
+          results.shift();
+          };
+        return sumResult
+        };
+  };
+  return answer
 };
 
 
@@ -41,12 +43,11 @@ console.time("timer");
 
 const forTestCase = [ [1,2,3], [1,2], [1,2,3], [1,2], [9,5,2,4] ];
 
-
 function testCase(testFunction, someTimer) {
   for (let i = 0; i < 100; i++){
-    forTestCase.forEach(element => testFunction(...element));
+  let y = forTestCase.forEach(element => console.log(testFunction(...element)));
   };
   console.timeEnd(someTimer);
 };
 
-testCase(mSum, "timer");
+testCase(sum, "timer");
