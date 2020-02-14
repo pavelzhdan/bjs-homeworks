@@ -22,12 +22,14 @@ mSum(1,2,1);
 
 function memorize(fn, limit){
   const results = [];
+  const income = fn;
   let answer = (...fn) => {
     let finding = () => results.find(x => compareArrays(x.args, fn));
     if (finding()){
       return finding().result
       } else {
-        let sumResult = sum(...fn);
+        let sumResult = income(...fn);
+        alert(sumResult);
         results.push({args: fn, result: sumResult});
           if (results.length > limit){
           results.shift();
@@ -45,7 +47,7 @@ const forTestCase = [ [1,2,3], [1,2], [1,2,3], [1,2], [9,5,2,4] ];
 
 function testCase(testFunction, someTimer) {
   for (let i = 0; i < 100; i++){
-  let y = forTestCase.forEach(element => console.log(testFunction(...element)));
+  forTestCase.forEach(element => testFunction(...element));
   };
   console.timeEnd(someTimer);
 };
